@@ -11,6 +11,13 @@
       type: Phaser.AUTO,
       width: 800,
       height: 600,
+      physics: {
+        default: 'arcade',
+        arcade:{
+          gravity:{y: 300},
+          debug: false
+        }
+      },
       scene: {
         preload: preload,
         create: create,
@@ -22,21 +29,33 @@
 
     function preload ()
     {
-      this.load.image("sky", "assets/feel.gif");
+      this.load.image("sky", "assets/feel.jpg");
+      this.load.image("ground","assets/resize.png");
 
 
 
-      this.load.spritesheet( 'person', 'assets/player.png'{frameWidth:32, frameHeight:32});
+      this.load.spritesheet( 'person', 'assets/player.png',
+      {frameWidth:64, frameHeight:64});
 
-      this.load.spritesheet('enemy', 'assets/enemy.png'{frameWidth:32,frameHeight:32});
+      this.load.spritesheet('enemy', 'assets/enemy.png',
+      {frameWidth:200,frameHeight:200});
+
     }
 
     function create ()
     {
-      this.add.image(0,0, 'sky').setOrigin(0);
-      this.add.sprite(-50,0,'person').setOrigin(0);
-      this.add.sprite(50,0,'enemy').setOrigin(0);
+      this.add.image(8,10, 'sky').setOrigin(0);
+      this.add.sprite(200,390,'person').setOrigin(0);
+      this.add.sprite(360,352,'enemy');
 
+      //creating static platforms
+
+      platforms = this.physics.add.staticGroup();
+      //creating the platforms itself
+
+      platforms.create(400,568,'ground').setScale(2).refreshBody();
+      platforms.create(50,250,'ground');
+      platforms.create(750,220,'ground');
 
     }
 
